@@ -56,7 +56,7 @@ def get_results(cfg_file, query_path):
 
     for line in tqdm(queries):
         query.content(line.strip())
-        result.append(ranker.score(idx, query, top_k))
+        results.append(ranker.score(idx, query, top_k))
     return results
 
 def main():
