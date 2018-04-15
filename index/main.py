@@ -6,5 +6,8 @@ def get_results(cfg_file):
     results = []
     return results
 
-def main(_):
+def main():
     print(get_results('config.toml'))
+
+if __name__ == '__main__':
+    main()
