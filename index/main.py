@@ -4,6 +4,7 @@ import time
 
 import metapy
 import pytoml
+from tqdm import *
 
 from math import log, pi, e
 
@@ -43,9 +44,9 @@ def load_ranker():
     """
     return PL2Ranker(10)
 
-def get_results(cfg_file, query_file):
+def get_results(cfg_file, query_path):
     idx = metapy.index.make_inverted_index(cfg_file)
-    ranker = load_ranker(cfg)
+    ranker = load_ranker()
     query = metapy.index.Document()
     top_k = 10
 
