@@ -43,15 +43,23 @@ def load_ranker():
     """
     return PL2Ranker(10)
 
-def get_results(cfg_file):
+def get_results(cfg_file, query_file):
     idx = metapy.index.make_inverted_index(cfg_file)
     ranker = load_ranker(cfg)
-    
+    query = metapy.index.Document()
+    top_k = 10
+
     results = []
+    with open(query_path, 'r') as query_file:
+        queries = query_file.readlines()
+
+    for line in tqdm(queries):
+        query.content(line.strip())
+        result.append(ranker.score(idx, query, top_k))
     return results
 
 def main():
-    print(get_results('config.toml'))
+    print(get_results('config.toml', '../data/queries.txt'))
 
 if __name__ == '__main__':
     main()
