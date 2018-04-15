@@ -1,4 +1,4 @@
-prefix = "../data/"
+prefix = "../data"
 stop-words = "../data/stopwords.txt"
 
 corpus = "line.toml"
