@@ -1,7 +1,6 @@
 import metapy
 import csv
 
-
 def my_tokenizer(doc):
     tok = metapy.analyzers.ICUTokenizer(suppress_tags=True)
     tok = metapy.analyzers.LowercaseFilter(tok)
