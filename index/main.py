@@ -5,24 +5,17 @@ import time
 import metapy
 import pytoml
 from tqdm import *
+import csv
 
 from math import log, pi, e
 
 class PL2Ranker(metapy.index.RankingFunction):
-    """
-    Create a new ranking function in Python that can be used in MeTA.
-    """
+
     def __init__(self, some_param=1.0):
         self.param = some_param
-        # You *must* call the base class constructor here!
         super(PL2Ranker, self).__init__()
 
     def score_one(self, sd):
-        """
-        You need to override this function to return a score for a single term.
-        For fields available in the score_data sd object,
-        @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
-        """
         tfn = sd.doc_term_count * log(1 + self.param * (sd.avg_dl / sd.doc_size), 2)
         if tfn <= 0:
             return 0
@@ -35,32 +28,43 @@ class PL2Ranker(metapy.index.RankingFunction):
                + log(e, 2)*(1/lmb - tfn) + 0.5 * log(2 * pi * tfn, 2))/(tfn + 1)
 
 def load_ranker():
-    """
-    Use this function to return the Ranker object to evaluate.
-
-    The parameter to this function, cfg_file, is the path to a
-    configuration file used to load the index. You can ignore this, unless
-    you need to load a ForwardIndex for some reason...
-    """
-    return PL2Ranker(10)
-
-def get_results(cfg_file, query_path):
-    idx = metapy.index.make_inverted_index(cfg_file)
-    ranker = load_ranker()
-    query = metapy.index.Document()
-    top_k = 10
-
-    results = []
-    with open(query_path, 'r') as query_file:
-        queries = query_file.readlines()
-
-    for line in tqdm(queries):
-        query.content(line.strip())
-        results.append(ranker.score(idx, query, top_k))
-    return results
-
-def main():
-    print(get_results('config.toml', '../data/queries.txt'))
+    return PL2Ranker()
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) != 2:
+        print("Usage: {} config.toml".format(sys.argv[0]))
+        sys.exit(1)
+    cfg = sys.argv[1]
+    print('Building or loading index...')
+    idx = metapy.index.make_inverted_index(cfg)
+    ranker = load_ranker()
+    # ev = metapy.index.IREval(cfg)
+    with open(cfg, 'r') as fin:
+        cfg_d = pytoml.load(fin)
+    query_cfg = cfg_d['query-runner']
+    if query_cfg is None:
+        print("query-runner table needed in {}".format(cfg))
+        sys.exit(1)
+    start_time = time.time()
+    top_k = 10
+    query_path = query_cfg.get('query-path', 'queries.txt')
+    query_start = query_cfg.get('query-id-start', 0)
+    query = metapy.index.Document()
+    print('Running queries')
+    with open(query_path) as query_file:
+        with open('../data.csv','rb') as f:
+            reader = csv.reader(f)
+            for query_num, line in enumerate(query_file):
+                print(line)
+                query.content(line.strip())
+                results = ranker.score(idx, query, top_k)
+                print(results)
+                doc_ids = []
+                interestingrows = []
+                for curr in results:
+                    if curr[0] != 1:
+                        interestingrows += [row for idx, row in enumerate(reader) if idx == curr[0]]
+                        # doc_ids.append(curr[0])
+                for curr in interestingrows:
+                    print('\t'+curr[0])
+                print('\n')
