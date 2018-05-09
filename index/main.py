@@ -38,14 +38,14 @@ if __name__ == '__main__':
     print('Building or loading index...')
     idx = metapy.index.make_inverted_index(cfg)
     ranker = load_ranker()
-    # ev = metapy.index.IREval(cfg)
+
     with open(cfg, 'r') as fin:
         cfg_d = pytoml.load(fin)
     query_cfg = cfg_d['query-runner']
     if query_cfg is None:
         print("query-runner table needed in {}".format(cfg))
         sys.exit(1)
-    start_time = time.time()
+
     top_k = 10
     query_path = query_cfg.get('query-path', 'queries.txt')
     query_start = query_cfg.get('query-id-start', 0)
@@ -54,17 +54,14 @@ if __name__ == '__main__':
     with open(query_path) as query_file:
         with open('../data.csv','rb') as f:
             reader = csv.reader(f)
+
+            #generate list of URLs so we can return them to user
+            urls = [row[0] for idxs, row in enumerate(reader)]
+
             for query_num, line in enumerate(query_file):
                 print(line)
                 query.content(line.strip())
                 results = ranker.score(idx, query, top_k)
-                print(results)
-                doc_ids = []
-                interestingrows = []
                 for curr in results:
-                    if curr[0] != 1:
-                        interestingrows += [row for idx, row in enumerate(reader) if idx == curr[0]]
-                        # doc_ids.append(curr[0])
-                for curr in interestingrows:
-                    print('\t'+curr[0])
+                    print('\t'+urls[curr[0]]+' ('+str(curr[1])+')')
                 print('\n')

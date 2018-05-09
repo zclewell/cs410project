@@ -19,26 +19,30 @@ def my_tokenizer(doc):
 if __name__ == '__main__':
     doc = metapy.index.Document()
     bypassedFirst = False #first row of the csv has the column titles so we don't want to index this
-    with open('prepped.txt', 'a') as of:
-            with open('data.csv','rb') as f:
+    with open('prepped_profile.txt', 'a') as of:
+            with open('data_new.csv','rb') as f:
                 reader = csv.reader(f)
                 for row in reader:
                     if bypassedFirst:
                         #combine all fields of the csv into one string
-                        combined = str(unicode(row[0], errors='ignore')) + ' ' + str(unicode(row[1], errors='ignore')) + ' ' + str(unicode(row[2], errors='ignore'))
+                        if 'https://cs.illinois.edu/directory' in str(unicode(row[0], errors='ignore')):
+        
+                            combined = str(unicode(row[0], errors='ignore')) + ' ' + str(unicode(row[1], errors='ignore')) + ' ' + str(unicode(row[2], errors='ignore'))
 
-                        #strip some stopwords that the tokenizer will miss
-                        combined = combined.replace('_',' ').replace('.',' ').replace('\\',' ').replace('|',' ')
+                            #strip some stopwords that the tokenizer will miss
+                            combined = combined.replace('_',' ').replace('.',' ').replace('\\',' ').replace('|',' ')
 
-                        #tokenize
-                        doc.content(combined)
-                        tokens = my_tokenizer(doc)
+                            #tokenize
+                            doc.content(combined)
+                            tokens = my_tokenizer(doc)
 
-                        #output all tokens for a given row into a single line in our output file
-                        for token in tokens:
-                                of.write(token)
-                                of.write(' ')
-                        of.write('\n')
+                            #ignore empty lines
+                            if len(tokens):
+                                #output all tokens for a given row into a single line in our output file
+                                for token in tokens:
+                                        of.write(token)
+                                        of.write(' ')
+                                of.write('\n')
                     else:
                         bypassedFirst = True
 
