@@ -52,7 +52,7 @@ if __name__ == '__main__':
     query = metapy.index.Document()
     print('Running queries')
     with open(query_path) as query_file:
-        with open('../data.csv','rb') as f:
+        with open('../data/data.csv','rb') as f:
             reader = csv.reader(f)
 
             #generate list of URLs so we can return them to user

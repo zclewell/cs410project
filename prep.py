@@ -1,5 +1,6 @@
 import metapy
 import csv
+import sys
 
 def my_tokenizer(doc):
     tok = metapy.analyzers.ICUTokenizer(suppress_tags=True)
@@ -17,25 +18,28 @@ def my_tokenizer(doc):
     return tokens
     
 if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print("Usage: {} csv output (refine_term)".format(sys.argv[0]))
+        sys.exit(1)
     doc = metapy.index.Document()
-    bypassedFirst = False #first row of the csv has the column titles so we don't want to index this
-    with open('prepped_profile.txt', 'a') as of:
-            with open('data_new.csv','rb') as f:
+    refine_term = ''
+    if len(sys.argv) == 4:
+        refine_term = sys.argv[3]
+    #first row of the csv has the column titles so we don't want to index this
+    bypassedFirst = False 
+    with open(sys.argv[2], 'a') as of:
+            with open(sys.argv[1],'rb') as f:
                 reader = csv.reader(f)
                 for row in reader:
                     if bypassedFirst:
-                        #combine all fields of the csv into one string
-                        if 'https://cs.illinois.edu/directory' in str(unicode(row[0], errors='ignore')):
-        
+                        if refine_term in str(unicode(row[0], errors='ignore')):
+                            # print(row[0])
                             combined = str(unicode(row[0], errors='ignore')) + ' ' + str(unicode(row[1], errors='ignore')) + ' ' + str(unicode(row[2], errors='ignore'))
-
                             #strip some stopwords that the tokenizer will miss
                             combined = combined.replace('_',' ').replace('.',' ').replace('\\',' ').replace('|',' ')
-
                             #tokenize
                             doc.content(combined)
                             tokens = my_tokenizer(doc)
-
                             #ignore empty lines
                             if len(tokens):
                                 #output all tokens for a given row into a single line in our output file
