@@ -18,6 +18,12 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   * **Query:** The last argument is the query the user would like to search for. If you would like to include more than a single word in your query you must wrap the entire query in quotation marks.
   
   **Example:**
-  python run_query.py news 3 "Lawrence Angrave"
+  ```python run_query.py news 3 "Lawrence Angrave"```
   This command will output the 3 best results in the news section of cs.illinois.edu for the query "Lawrence Angrave"
+  
+  
+  ### Web Server
+  
+  ### Web Crawler
 
+To run the web crawler and generate new data that the search tool can use the user
