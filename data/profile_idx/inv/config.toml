@@ -1,4 +1,4 @@
-index = "idx"
+index = "profile_idx"
 dataset = "profile"
 corpus = "line.toml"
 stop-words = "../data/stopwords.txt"

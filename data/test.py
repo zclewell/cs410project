@@ -56,7 +56,7 @@ if __name__ == '__main__':
             reader = csv.reader(f)
 
             #generate list of URLs so we can return them to user
-            urls = [row[0] for idxs, row in enumerate(reader)]
+            urls = [row[0] for idxs, row in enumerate(reader) if 'directory/profile' in str(unicode(row[0], errors='ignore'))]
 
             for query_num, line in enumerate(query_file):
                 print(line)
