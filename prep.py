@@ -6,7 +6,7 @@ def my_tokenizer(doc):
     tok = metapy.analyzers.ICUTokenizer(suppress_tags=True)
     tok = metapy.analyzers.LowercaseFilter(tok)
     tok = metapy.analyzers.ListFilter(tok, "data/stopwords.txt", metapy.analyzers.ListFilter.Type.Reject)
-    tok = metapy.analyzers.Porter2Filter(tok)
+    # tok = metapy.analyzers.Porter2Filter(tok)
 
     ana = metapy.analyzers.NGramWordAnalyzer(1, tok)
     unigrams = ana.analyze(doc)

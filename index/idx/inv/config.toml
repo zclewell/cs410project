@@ -1,0 +1,12 @@
+index = "idx"
+dataset = "profile"
+corpus = "line.toml"
+stop-words = "../data/stopwords.txt"
+prefix = "."
+[[analyzers]]
+	filter = "default-unigram-chain"
+	ngram = 1
+	method = "ngram-word"
+[query-runner]
+	query-id-start = 1
+	query-path = "../data/queries.txt"
