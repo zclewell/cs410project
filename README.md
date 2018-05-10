@@ -21,11 +21,21 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   
   ```python run_query.py news 3 "Lawrence Angrave"```
   
-  This command will output the 3 best results in the news section of cs.illinois.edu for the query "Lawrence Angrave"
+  This command will output the top 3 results in the news section of cs.illinois.edu for the query "Lawrence Angrave"
   
   
   ### Web Server
   
+  Our web server was written using Flask and can be run locally using:
+  
+  ```python web/server.py```
+  
+  The address of the server will be printed in the terminial after the user runs this command
+  
   ### Web Crawler
 
-To run the web crawler and generate new data that the search tool can use the user
+To run the web crawler and generate new data that the search tool you can run:
+
+```scrapy runspider spider.py -o data.csv -t csv```
+
+Which will generate a new csv file containing the url, title, and html of every page hosted on cs.illinois.edu. In order to update the search script you must replace the .dat file for each search category in the data folder using prep.py.
