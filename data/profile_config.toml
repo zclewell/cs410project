@@ -2,7 +2,7 @@ prefix = "."
 stop-words = "../data/stopwords.txt"
 
 corpus = "line.toml"
-dataset = "profile"
+dataset = "profile_stemmed"
 index = "idx"
 
 [[analyzers]]

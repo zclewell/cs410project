@@ -1,9 +1,0 @@
-index = "profile_idx"
-dataset = "profile"
-corpus = "line.toml"
-stop-words = "../data/stopwords.txt"
-prefix = "../data"
-[[analyzers]]
-	filter = "default-unigram-chain"
-	ngram = 1
-	method = "ngram-word"

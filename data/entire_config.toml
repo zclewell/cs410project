@@ -2,7 +2,7 @@ prefix = "."
 stop-words = "../data/stopwords.txt"
 
 corpus = "line.toml"
-dataset = "entire_site"
+dataset = "entire"
 index = "idx"
 
 [[analyzers]]
