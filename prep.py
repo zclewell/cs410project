@@ -33,10 +33,10 @@ if __name__ == '__main__':
                 for row in reader:
                     if bypassedFirst:
                         if refine_term in str(unicode(row[0], errors='ignore')):
-                            # print(row[0])
+                            print(row[0])
                             combined = str(unicode(row[0], errors='ignore')) + ' ' + str(unicode(row[1], errors='ignore')) + ' ' + str(unicode(row[2], errors='ignore'))
                             #strip some stopwords that the tokenizer will miss
-                            combined = combined.replace('_',' ').replace('.',' ').replace('\\',' ').replace('|',' ')
+                            combined = combined.replace('_',' ').replace('.',' ').replace('\\n',' ').replace('|',' ').replace('\\',' ')
                             #tokenize
                             doc.content(combined)
                             tokens = my_tokenizer(doc)
