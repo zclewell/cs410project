@@ -5,6 +5,7 @@ import metapy
 import pytoml
 from tqdm import *
 import csv
+from subprocess import call
 
 from math import log, pi, e
 
@@ -56,7 +57,7 @@ if __name__ == '__main__':
         url_refine_term = 'edu/news/'
     elif type_req == 'courses':
         cfg = './courses_config.toml'
-        url_refine_term = 'edu/academics/courses/'
+        url_refine_term = 'edu/courses/'
     elif type_req == 'all':
         cfg = './entire_config.toml'
     else:
@@ -79,12 +80,7 @@ if __name__ == '__main__':
     except ValueError:
         print('Number of results must be an integer')
 
-    doc = metapy.index.Document()
-    doc.content(sys.argv[3])
-    tokens = my_tokenizer(doc)
-    print(tokens)
-    user_query = ' '.join(tokens)
-    print(user_query)
+    user_query = sys.argv[3]
     query = metapy.index.Document()
     with open('data.csv','rb') as f:
         reader = csv.reader(f)
@@ -95,4 +91,5 @@ if __name__ == '__main__':
     for curr in results:
         print('\t'+urls[curr[0]]+' ('+str(curr[1])+')')
     print('\n')
+    # call(['rm','-r','./idx'])
 

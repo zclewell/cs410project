@@ -1,9 +1,9 @@
 prefix = "."
-stop-words = "../data/stopwords.txt"
+stop-words = "stopwords.txt"
 
 corpus = "line.toml"
-dataset = "profile_stemmed"
-index = "idx"
+dataset = "profile"
+index = "profile"
 
 [[analyzers]]
 method = "ngram-word"

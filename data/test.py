@@ -56,12 +56,12 @@ if __name__ == '__main__':
             reader = csv.reader(f)
 
             #generate list of URLs so we can return them to user
-            urls = [row[0] for idxs, row in enumerate(reader) if 'directory/profile' in str(unicode(row[0], errors='ignore'))]
-
+            # urls = [row[0] for idxs, row in enumerate(reader) if 'edu/courses/' in str(unicode(row[0], errors='ignore'))]
+            urls = [row[0] for idxs, row in enumerate(reader)]
             for query_num, line in enumerate(query_file):
                 print(line)
                 query.content(line.strip())
                 results = ranker.score(idx, query, top_k)
                 for curr in results:
-                    print('\t'+urls[curr[0]]+' ('+str(curr[1])+')')
+                    print('\t'+urls[curr[0]]+' ('+str(curr[0])+')')
                 print('\n')
