@@ -2,8 +2,8 @@
 The goal of this project was to develop a new search tool for UIUC's cs website [cs.illinois.edu](https://cs.illinois.edu/). In order to achieve this goal we developed a cli search tool, a web interface to use that search tool, as well as a script that crawls the site.
 
 ## Installation:
-  Required programs: Python, pip
-  Required packages: metapy, scrapy, pytoml, tqdm
+  Required programs: Python, pip  
+  Required packages: metapy, scrapy, pytoml, tqdm  
   To install and run this software you must first download Python/pip. Once that is complete you can install the required packages (metapy   for indexing and scrapy for web crawling.
   
   ## Use:
