@@ -2,8 +2,6 @@ import math
 import sys
 
 import metapy
-import pytoml
-from tqdm import *
 import csv
 from subprocess import call
 
@@ -27,26 +25,13 @@ class OurRanker(metapy.index.RankingFunction):
         return sd.query_term_weight * (tfn * log(tfn * lmb,2) 
                + log(e, 2)*(1/lmb - tfn) + 0.5 * log(2 * pi * tfn, 2))/(tfn + 1)
 
-def my_tokenizer(doc):
-    tok = metapy.analyzers.ICUTokenizer(suppress_tags=True)
-    tok = metapy.analyzers.LowercaseFilter(tok)
-    tok = metapy.analyzers.ListFilter(tok, "stopwords.txt", metapy.analyzers.ListFilter.Type.Reject)
-    tok = metapy.analyzers.Porter2Filter(tok)
-
-    ana = metapy.analyzers.NGramWordAnalyzer(1, tok)
-    unigrams = ana.analyze(doc)
-
-    tok.set_content(doc.content())
-    tokens = []
-    for token, count in unigrams.items():
-        tokens.append(token)
-    return tokens
-
-
 def run(args):
-    if len(args) != 4:
+    #if we didn't get enough arguments exit
+    if len(args) != 3:
         sys.exit(1)
-    type_req = args[1]
+
+    #load the correct config file based on the type requested
+    type_req = args[0]
     cfg = ''
     url_refine_term = ''
     if type_req == 'profile':
@@ -63,34 +48,34 @@ def run(args):
     else:
         print('Invalid search type')
         sys.exit(1)
+
+    #create index based on config
     idx = metapy.index.make_inverted_index(cfg)
+
+    #create ranker
     ranker = OurRanker()
 
-
-    with open(cfg, 'r') as fin:
-        cfg_d = pytoml.load(fin)
-    query_cfg = cfg_d['query-runner']
-    if query_cfg is None:
-        print("query-runner table needed in {}".format(cfg))
-        sys.exit(1)
-
+    #generate top_k based on user argument
     top_k = 0
     try:
-        top_k = int(args[2])
+        top_k = int(args[1])
     except ValueError:
         print('Number of results must be an integer')
 
-    user_query = args[3]
+    user_query = args[2]
     query = metapy.index.Document()
+    query.content(user_query.strip())
+
+    results = ranker.score(idx, query, top_k)
+
+    #generate array of docs based on config
     with open('../data/data.csv','rb') as f:
         reader = csv.reader(f)
         urls = [row[0] for index, row in enumerate(reader) if url_refine_term in str(unicode(row[0], errors='ignore'))]
-    query.content(user_query.strip())
-    results = ranker.score(idx, query, top_k)
+    
+    #generate urls corresponding to doc ids returned by ranker
     output = []
     for curr in results:
         output.append(urls[curr[0]])
     return output
 
-if __name__ == '__main__':
-    print(run(sys.argv))
