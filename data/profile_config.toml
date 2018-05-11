@@ -1,9 +1,9 @@
-prefix = "."
-stop-words = "stopwords.txt"
+prefix = "../data/"
+stop-words = "../data/stopwords.txt"
 
 corpus = "line.toml"
 dataset = "profile"
-index = "profile"
+index = "../data/profile"
 
 [[analyzers]]
 method = "ngram-word"
@@ -11,5 +11,5 @@ ngram = 1
 filter = "default-unigram-chain"
 
 [query-runner]
-query-path = "../data/queries.txt"
+query-path = "queries.txt"
 query-id-start = 1

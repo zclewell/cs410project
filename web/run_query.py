@@ -45,22 +45,21 @@ def my_tokenizer(doc):
 
 def run(args):
     if len(args) != 4:
-        print("Usage: {} type result_num query".format(sys.argv[0]))
         sys.exit(1)
     type_req = args[1]
     cfg = ''
     url_refine_term = ''
     if type_req == 'profile':
-        cfg = './profile_config.toml'
+        cfg = '../data/profile_config.toml'
         url_refine_term = 'edu/directory/'
     elif type_req == 'news':
-        cfg = './news_config.toml'
+        cfg = '../data/news_config.toml'
         url_refine_term = 'edu/news/'
     elif type_req == 'courses':
-        cfg = './courses_config.toml'
+        cfg = '../data/courses_config.toml'
         url_refine_term = 'edu/courses/'
     elif type_req == 'all':
-        cfg = './entire_config.toml'
+        cfg = '../data/entire_config.toml'
     else:
         print('Invalid search type')
         sys.exit(1)
@@ -83,18 +82,15 @@ def run(args):
 
     user_query = args[3]
     query = metapy.index.Document()
-    with open('data.csv','rb') as f:
+    with open('../data/data.csv','rb') as f:
         reader = csv.reader(f)
         urls = [row[0] for index, row in enumerate(reader) if url_refine_term in str(unicode(row[0], errors='ignore'))]
-    print(user_query)
     query.content(user_query.strip())
     results = ranker.score(idx, query, top_k)
     output = []
     for curr in results:
-        print('\t'+urls[curr[0]]+' ('+str(curr[1])+')')
         output.append(urls[curr[0]])
     return output
 
 if __name__ == '__main__':
-    # print(run(sys.argv))
-    run(sys.argv)
+    print(run(sys.argv))
