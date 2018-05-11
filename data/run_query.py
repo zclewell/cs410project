@@ -42,11 +42,12 @@ def my_tokenizer(doc):
         tokens.append(token)
     return tokens
 
-if __name__ == '__main__':
-    if len(sys.argv) != 4:
+
+def run(args):
+    if len(args) != 4:
         print("Usage: {} type result_num query".format(sys.argv[0]))
         sys.exit(1)
-    type_req = sys.argv[1]
+    type_req = args[1]
     cfg = ''
     url_refine_term = ''
     if type_req == 'profile':
@@ -76,11 +77,11 @@ if __name__ == '__main__':
 
     top_k = 0
     try:
-        top_k = int(sys.argv[2])
+        top_k = int(args[2])
     except ValueError:
         print('Number of results must be an integer')
 
-    user_query = sys.argv[3]
+    user_query = args[3]
     query = metapy.index.Document()
     with open('data.csv','rb') as f:
         reader = csv.reader(f)
@@ -88,8 +89,11 @@ if __name__ == '__main__':
     print(user_query)
     query.content(user_query.strip())
     results = ranker.score(idx, query, top_k)
+    output = []
     for curr in results:
         print('\t'+urls[curr[0]]+' ('+str(curr[1])+')')
-    print('\n')
-    # call(['rm','-r','./idx'])
+        output.append(urls[curr[0]])
+    return output
 
+if __name__ == '__main__':
+    print(run(sys.argv))
