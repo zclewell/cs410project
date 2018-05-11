@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CS@Illinois Search</title>
+  <link href="css/custom.css" rel="stylesheet"/>
+  <link href="css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body style="padding: 25px 50px 75px;">
+  <div class="container-fluid">
+    <div class="page-header text-center">
+      <h1><a href="#">CS@Illinois Search</a>
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <div class="input-group">
+        <div class="input-group-btn search-panel">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span id="search_concept">All</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li id="All"><a href="#">All</a></li>
+            <li id="Courses"><a href="#">Courses</a></li>
+            <li id="News"><a href="#">News</a></li>
+            <li id="Profiles"><a href="#">Profiles</a></li>
+          </ul>
+        </div>
+        <input type="hidden" name="search_param" value="all" id="search_param">
+        <input type="text" class="form-control" placeholder="Enter query here" id="query_text">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" id="search_button">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="container" >
+    <div class="row">
+      <div class="container" id="search_results" style="max-width: 750px;float:center;">
+         <ol id="search_results_list" style="color:black;">
+        </ol>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted">
+        CS 410 Project
+      </p>
+    </div>
+  </footer>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="javascript/bootstrap.min.js"></script>
+<script src="javascript/index.js"></script>
+</html>
