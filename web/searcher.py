@@ -74,8 +74,9 @@ class Searcher:
         for res in results:
             response['results'].append({
                 'score': float(res[1]),
-                'name': urls[res[0]],
+                'name': str(urls[res[0]]),
                 'path': self.idx.doc_path(res[0])
             })
+            # print(urls[res[0]])
         return json.dumps(response, indent=2)
 

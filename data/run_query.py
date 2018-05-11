@@ -6,7 +6,7 @@ import csv
 
 from math import log, pi, e
 
-class OurRanker(metapy.index.RankingFunction):
+class OurRanker(metapy.index.Ranker):
 
     def __init__(self, some_param=1.0):
         self.param = some_param

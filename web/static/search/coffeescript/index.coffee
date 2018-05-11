@@ -50,7 +50,7 @@ print_results = (result) ->
     break if displayed == 20
     continue if (doc.path.includes ":") or (doc.path.length > 60)
     displayed += 1
-    path = doc.path.replace(/_/g, " ")
-    html = "<li><h4><a href='https://cs.illinois.edu/#{doc.path}'>#{path}</a>"
+    path = doc.name.replace(/_/g, " ")
+    html = "<li><h4><a href='#{doc.name}'>#{path}</a>"
     html += "<small class='pull-right'>#{doc.score.toFixed(4)}</small></h4></li>"
     $("#search_results_list").append(html)
