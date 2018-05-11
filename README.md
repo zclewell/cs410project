@@ -4,18 +4,18 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
 ## Installation:
   Required programs: Python, pip  
   Required packages: metapy, scrapy, pytoml, tqdm  
-  To install and run this software you must first download Python/pip. Once that is complete you can install the required packages (metapy   for indexing and scrapy for web crawling.
+  To install and run this software, you must first download Python/pip. Once that is complete, you can install the required packages (metapy for indexing and scrapy for web crawling).
   
   ## Use:
   ### Command Line interface
-  In order to use the cli search tool you need to navigate to the 'data' directory of this project and run the 'run_query' python script.
+  In order to use the cli search tool, you need to navigate to the 'data' directory of this project and run the 'run_query' python script.
   This command take 3 arguments:
   
   * **Search Type:** User must enter: 'all', 'courses', 'news', or 'profile' as the second argument of their query. Each section returns results only from these sections of the website.
     
-  * **Number of results:** User must enter an integer as the third argument of their query. The algoritm will return no more results than this value (if there are not many good matches the program may return less than this amount)
+  * **Number of results:** User must enter an integer as the third argument of their query. The algorithm will return no more results than this value (if there are not many good matches, the program may return less than this amount)
   
-  * **Query:** The last argument is the query the user would like to search for. If you would like to include more than a single word in your query you must wrap the entire query in quotation marks.
+  * **Query:** The last argument is the query the user would like to search for. If you would like to include more than a single word in your query, you must wrap the entire query in quotation marks.
   
   **Example:**
   
@@ -30,7 +30,7 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   
   ```python web/server.py```
   
-  The address of the server will be printed in the terminial after the user runs this command
+  The address of the server will be printed in the terminial after the user runs this command.
   
   ### Web Crawler
 
@@ -38,6 +38,6 @@ To run the web crawler and generate new data that the search tool you can run:
 
 ```scrapy runspider spider.py -o data.csv -t csv```
 
-Which will generate a new csv file containing the url, title, and html of every page hosted on cs.illinois.edu. In order to update the search script you must replace the .dat file for each search category in the data folder using prep.py.
+This will generate a new csv file containing the url, title, and html of every page hosted on cs.illinois.edu. In order to update the search script, you must replace the .dat file for each search category in the data folder using prep.py.
 
 The crawler starts by going to cs.illinois.edu, dynamically loading the page with Selenium, and retrieving all the links on the page. All the text content on the page is retrieved and written to a csv file. The crawler then recursively repeats this process for all the pages that the links lead to.
