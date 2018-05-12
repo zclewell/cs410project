@@ -9,11 +9,11 @@ import csv
 
 from math import log, pi, e
 
-class PL2Ranker(metapy.index.RankingFunction):
-
+#our ranking function
+class OurRanker(metapy.index.Ranker):
     def __init__(self, some_param=1.0):
         self.param = some_param
-        super(PL2Ranker, self).__init__()
+        super(OurRanker, self).__init__()
 
     def score_one(self, sd):
         tfn = sd.doc_term_count * log(1 + self.param * (sd.avg_dl / sd.doc_size), 2)
@@ -27,17 +27,17 @@ class PL2Ranker(metapy.index.RankingFunction):
         return sd.query_term_weight * (tfn * log(tfn * lmb,2) 
                + log(e, 2)*(1/lmb - tfn) + 0.5 * log(2 * pi * tfn, 2))/(tfn + 1)
 
-def load_ranker():
-    return PL2Ranker()
-
+#function to run when ran from command line
 if __name__ == '__main__':
+    #accepts a config file to run multiple queries on
     if len(sys.argv) != 2:
         print("Usage: {} config.toml".format(sys.argv[0]))
         sys.exit(1)
     cfg = sys.argv[1]
     print('Building or loading index...')
     idx = metapy.index.make_inverted_index(cfg)
-    ranker = load_ranker()
+
+    ranker = OurRanker()
 
     with open(cfg, 'r') as fin:
         cfg_d = pytoml.load(fin)
@@ -56,8 +56,8 @@ if __name__ == '__main__':
             reader = csv.reader(f)
 
             #generate list of URLs so we can return them to user
-            # urls = [row[0] for idxs, row in enumerate(reader) if 'edu/courses/' in str(unicode(row[0], errors='ignore'))]
             urls = [row[0] for idxs, row in enumerate(reader)]
+
             for query_num, line in enumerate(query_file):
                 print(line)
                 query.content(line.strip())
