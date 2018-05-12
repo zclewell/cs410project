@@ -57,3 +57,5 @@ This crawler is based off of [scrapy](https://scrapy.org/)
 Sergey developed the initial web crawler and put the initial search functionality in place. He later improved the crawler to load pages dynamically, which allows useful searches on pages such as staff directory profiles, which have almost exclusively dynamic content.
 
 Zach developed the script that converted the .csv files to .dat files and implemented the underlying search functions for the web server and the cli.
+
+Arun implemented the frontend and backend for the web interface by setting up the web server and incorporating the underlying search functions into the query processor. JSON requests were used to obtain the specified filter option and user query.
