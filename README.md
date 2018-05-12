@@ -32,6 +32,8 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   
   ### Web Server
   
+  The setup instructions for the web server can be found in the web folder. Please setup before running the command below.
+  
   Our web server was written using Flask and can be run locally using:
   
   ```python web/search_server.py```
