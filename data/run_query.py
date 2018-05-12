@@ -8,7 +8,7 @@ import csv
 
 from math import log, pi, e
 
-#implementation of a 
+#implementation of a PL2 Ranker
 class OurRanker(metapy.index.Ranker):
     def __init__(self, some_param=1.0):
         self.param = some_param
