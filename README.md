@@ -48,3 +48,7 @@ This will generate a new csv file containing the url, title, and html of every p
 The crawler starts by going to cs.illinois.edu, dynamically loading the page with Selenium, and retrieving all the links on the page. All the text content on the page is retrieved and written to a csv file. The crawler then recursively repeats this process for all the pages that the links lead to that begine with cs.illinois.edu.
 
 This crawler is based off of [scrapy](https://scrapy.org/)
+
+## Contributions of Team Members
+
+Sergey developed the initial web crawler and put the initial search functionality in place. He later improved the crawler to load pages dynamically, which allows useful searches on pages such as staff directory profiles, which have almost exclusively dynamic content.
