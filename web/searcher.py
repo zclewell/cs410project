@@ -37,12 +37,12 @@ class Searcher:
             self.url_refine_term = url_refine_term
         elif type_req == 'News':
             cfg = '../data/news_config.toml'
-            url_refine_term = 'edu/news/'
+            url_refine_term = 'edu/news'
             self.idx = metapy.index.make_inverted_index(cfg)
             self.url_refine_term = url_refine_term
         elif type_req == 'Courses':
-            cfg = '../data/courses_config.toml'
-            url_refine_term = 'edu/courses/'
+            cfg = '../data/entire_config.toml'
+            #url_refine_term = 'edu/courses'
             self.idx = metapy.index.make_inverted_index(cfg)
             self.url_refine_term = url_refine_term
         elif type_req == 'All':
@@ -56,14 +56,13 @@ class Searcher:
         user_query = request['query']
         ranker = OurRanker()
 
-        top_k = 3
 
         results = {}
         query = metapy.index.Document()
         query.content(user_query.strip())    
         response = {'query': request['query'], 'results': []} 
         
-        results = ranker.score(self.idx, query, top_k)
+        results = ranker.score(self.idx, query)
 
         #generate array of docs based on config
         with open('../data/data.csv','rb') as f:
@@ -72,11 +71,12 @@ class Searcher:
 
         #generate urls corresponding to doc ids returned by ranker
         for res in results:
-            response['results'].append({
-                'score': float(res[1]),
-                'name': str(urls[res[0]]),
-                'path': self.idx.doc_path(res[0])
-            })
-            # print(urls[res[0]])
+            if not (type_req == 'Courses' and not ("courses" in urls[res[0]])): 
+                response['results'].append({
+                    'score': float(res[1]),
+                    'name': str(urls[res[0]]),
+                    'path': self.idx.doc_path(res[0])
+                })
+            #print(urls[res[0]])
         return json.dumps(response, indent=2)
 
