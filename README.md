@@ -28,7 +28,7 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   
   Our web server was written using Flask and can be run locally using:
   
-  ```python web/server.py```
+  ```python web/search_server.py```
   
   The address of the server will be printed in the terminial after the user runs this command.
   
