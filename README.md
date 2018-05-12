@@ -1,5 +1,8 @@
 # CS410 Final Project
-The goal of this project was to develop a new search tool for UIUC's cs website [cs.illinois.edu](https://cs.illinois.edu/). In order to achieve this goal we developed a cli search tool, a web interface to use that search tool, as well as a script that crawls the site.
+The goal of this project was to develop a new search tool for UIUC's cs website [cs.illinois.edu](https://cs.illinois.edu/) that supported categorical search tools. In order to achieve this goal we developed a cli search tool, a web interface to use that search tool, as well as a script that crawls the site.
+
+## Overview:
+  We first crawl all pages at cs.illinois.edu using our web crawler. The crawler generates a csv file with information about all of the pages hosted on cs.illinois.edu. We then run our prep script in order to generate .dat files for each of the categories we supported. Leveraging the structure of the website we were able to sort pages based on the path of their url. For example, all of the instructor and staff profile pages begin with: 'cs.illinois.edu/directory'. We created a .toml file for each of the search categories we supported. These individual config tiles allowed us to separate the .dat files as well as create separate index directories. We then implemented a ranking function and a script that would accept a config file and return results. We wrapped this ranking script in both a Command Line Interface as well as a web interface. 
 
 ## Installation:
   Required programs: Python, pip  
