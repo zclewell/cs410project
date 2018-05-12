@@ -32,6 +32,8 @@ The goal of this project was to develop a new search tool for UIUC's cs website 
   
   The address of the server will be printed in the terminial after the user runs this command.
   
+  The web server simply uses the function we wrote for the cli and presents the information in a more user-freiendly manner. It was built using [Flask](http://flask.pocoo.org/) and [coffeescript](http://coffeescript.org/)
+  
   ### Web Crawler
 
 To run the web crawler and generate new data that the search tool you can run:
@@ -40,4 +42,6 @@ To run the web crawler and generate new data that the search tool you can run:
 
 This will generate a new csv file containing the url, title, and html of every page hosted on cs.illinois.edu. In order to update the search script, you must replace the .dat file for each search category in the data folder using prep.py.
 
-The crawler starts by going to cs.illinois.edu, dynamically loading the page with Selenium, and retrieving all the links on the page. All the text content on the page is retrieved and written to a csv file. The crawler then recursively repeats this process for all the pages that the links lead to.
+The crawler starts by going to cs.illinois.edu, dynamically loading the page with Selenium, and retrieving all the links on the page. All the text content on the page is retrieved and written to a csv file. The crawler then recursively repeats this process for all the pages that the links lead to that begine with cs.illinois.edu.
+
+This crawler is based off of [scrapy](https://scrapy.org/)
