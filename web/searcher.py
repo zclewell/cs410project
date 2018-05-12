@@ -6,14 +6,10 @@ import operator
 from query import OurRanker
 
 class Searcher:
-    """
-    Wraps the MeTA search engine and its rankers.
-    """
-    # the initialiser loads the movies, the plot and initialises the common praise word dictionary
     def __init__(self, cfg):
         """
         Create/load a MeTA inverted index based on the provided config file and
-        set the default ranking algorithm to Okapi BM25.
+        set default filter option to All
         """
         self.idx = metapy.index.make_inverted_index(cfg)
         self.url_refine_term = ''
@@ -23,8 +19,7 @@ class Searcher:
 
     def search(self, request):
         """
-        Accept a JSON request and run the provided query with the specified
-        ranker.
+        Accept a JSON request and run the provided query with our ranker.
         """
         type_req = request['filter']
         print(type_req)
